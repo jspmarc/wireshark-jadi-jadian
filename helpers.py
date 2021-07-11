@@ -1,3 +1,4 @@
+import socket
 from struct import unpack
 
 
@@ -25,3 +26,11 @@ def get_tcp_flags(raw, flag):
         return (raw & (int("1" * used_id, 2) + 1)) >> used_id
     else:
         return raw & 1
+
+
+def ifnames_to_array():
+    if_devices = socket.if_nameindex()
+    res = [""]
+    for if_device in if_devices:
+        res.append(if_device[1])
+    return res
