@@ -66,3 +66,6 @@ def tcp_head(raw):
 
 def udp_head(raw):
     return unpack("! H H H", raw[6:])
+
+def icmp_head(raw):
+    return unpack("! B B", raw[2:])
