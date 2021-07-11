@@ -11,15 +11,15 @@ def eth_head(raw):
     H = unsigned char (2 bytes)
     """
 
-    dest, src, protocol_raw = unpack(
+    dest, src, ether_type_raw = unpack(
         "! 6s 6s H", raw[:14]
     )  # https://docs.python.org/3/library/struct.html
     dest_mac = helpers.get_mac_addr(dest)
     src_mac = helpers.get_mac_addr(src)
-    protocol = socket.htons(protocol_raw)
+    ether_type = socket.htons(ether_type_raw)
     data = raw[14:]
 
-    return (dest_mac, src_mac, protocol, data)
+    return (dest_mac, src_mac, ether_type, data)
 
 
 def ipv4_head(raw):

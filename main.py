@@ -9,10 +9,10 @@ ipv4_protocol_id = {
     "udp": 17,
 }
 
-ipv4_protocol_handler ={
+ipv4_protocol_handler = {
     "icmp": handlers.handle_icmp,
     "tcp": handlers.handle_tcp,
-    "udp": handlers.handle_udp
+    "udp": handlers.handle_udp,
 }
 
 
@@ -26,13 +26,21 @@ def main():
     while True:
         raw, addr = s.recvfrom(65565)
         eth = parse.eth_head(raw)
-        if eth[2] == 8:  # ipv4
+
+        print(eth[2])
+
+        if eth[2] == 8:
             ipv4 = parse.ipv4_head(eth[3])
+
             data = ipv4[6]
             ipv4_protocol = ipv4[3]
 
             if ipv4_protocol == ipv4_protocol_id[ipv4_protocol_chosen]:
+                print(
+                    f"Source IP: {ipv4[4]}; Destination IP: {ipv4[5]}; TTL: {ipv4[2]}"
+                )
                 ipv4_protocol_handler[ipv4_protocol_chosen](data)
+                print()
 
 
 if __name__ == "__main__":
