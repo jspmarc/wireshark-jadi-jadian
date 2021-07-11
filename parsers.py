@@ -5,12 +5,6 @@ import helpers
 
 
 def eth_head(raw):
-    """
-    ! == network(=big-endian) ordering
-    s == char[] (bytes)
-    H = unsigned char (2 bytes)
-    """
-
     dest, src, ether_type_raw = unpack(
         "! 6s 6s H", raw[:14]
     )  # https://docs.python.org/3/library/struct.html
