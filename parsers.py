@@ -29,3 +29,27 @@ def ipv4_head(raw):
     dest = helpers.get_ip(dest_raw)
 
     return protocol_version, header_length, ttl, protocol, src, dest, data
+
+def tcp_head(raw):
+    src_port, dest_port, sequence, acknowledgement, offset_reserved_flags =\
+        unpack('! H H I I H', raw[:14])
+
+    offset = (offset_reserved_flags >> 12) * 4
+    flag_urg = helpers.get_tcp_flags(offset_reserved_flags, 'urg')
+    flag_ack = helpers.get_tcp_flags(offset_reserved_flags, 'ack')
+    flag_psh = helpers.get_tcp_flags(offset_reserved_flags, 'psh')
+    flag_rst = helpers.get_tcp_flags(offset_reserved_flags, 'rst')
+    flag_syn = helpers.get_tcp_flags(offset_reserved_flags, 'syn')
+    flag_fin = helpers.get_tcp_flags(offset_reserved_flags, 'fin')
+
+    data = raw[offset:]
+    flags = {
+        'urg': flag_urg,
+        'ack': flag_ack,
+        'psh': flag_psh,
+        'rst': flag_rst,
+        'syn': flag_syn,
+        'fin': flag_fin,
+    }
+
+    return src_port, dest_port, sequence, acknowledgement, flags, data
