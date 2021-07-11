@@ -62,3 +62,7 @@ def tcp_head(raw):
     }
 
     return src_port, dest_port, sequence, acknowledgement, flags, data
+
+
+def udp_head(raw):
+    return unpack("! H H H", raw[6:])
