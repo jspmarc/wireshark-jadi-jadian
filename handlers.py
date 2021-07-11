@@ -2,7 +2,7 @@ import parsers as parse
 
 
 def handle_icmp(data):
-    icmp = parse.icmp(data)
+    icmp = parse.icmp_head(data)
     print(f"\tType: {icmp[0]}, Code: {icmp[1]}")
 
 

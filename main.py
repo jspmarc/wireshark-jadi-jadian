@@ -18,13 +18,13 @@ ipv4_protocol_handler ={
 
 def main():
     s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
-    raw, addr = s.recvfrom(65565)
 
     ipv4_protocol_chosen = ["", "icmp", "tcp", "udp"][
         int(input("Mau pakai protokol apa?\n1: ICMP\n2: TCP\n3: UDP\n(1/2/3)> "))
     ]
 
     while True:
+        raw, addr = s.recvfrom(65565)
         eth = parse.eth_head(raw)
         if eth[2] == 8:  # ipv4
             ipv4 = parse.ipv4_head(eth[3])
