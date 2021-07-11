@@ -12,16 +12,16 @@ def get_ip(raw_ip):
 def get_tcp_flags(raw, flag):
     flag_id = {
         "fin": 0,
-        "ack": 1,
-        "psh": 2,
-        "rst": 3,
-        "syn": 4,
+        "syn": 1,
+        "rst": 2,
+        "psh": 3,
+        "ack": 4,
         "urg": 5,
     }
 
     used_id = flag_id[flag]
 
     if used_id != 0:
-        return (raw & (int("1" * used_id) + 1)) >> used_id
+        return (raw & (int("1" * used_id, 2) + 1)) >> used_id
     else:
         return raw & 1
