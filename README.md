@@ -1,4 +1,10 @@
 # Kabel Hiu
+## Pre-requisite
+1. Sistem operasi Linux
+2. Python 3
+
+## Usage
+`sudo python main.py`
 
 ## References
 https://www.uv.mx/personal/angelperez/files/2018/10/sniffers_texto.pdf
