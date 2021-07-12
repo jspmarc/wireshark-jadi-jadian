@@ -61,5 +61,30 @@ def tcp_head(raw):
 def udp_head(raw):
     return unpack("! H H H", raw[:6])
 
+
 def icmp_head(raw):
     return unpack("! B B", raw[:2])
+
+
+def arp(raw):
+    htype, ptype_raw, hlen, plen, operation_raw, sha, spa, tha, tpa = unpack(
+        "! H H B B H 6s 4s 6s 4s", raw
+    )
+    ptype = socket.htons(ptype_raw)
+    sender_mac = helpers.get_mac_addr(sha)
+    sender_ip = helpers.get_ip(spa)
+    target_mac = helpers.get_mac_addr(tha)
+    target_ip = helpers.get_ip(tpa)
+    operation = "ARP Request" if operation_raw == 1 else "ARP Reply"
+    # return unpack("! H H B B H 6s 4s 6s 4s", raw)
+    return (
+        htype,
+        ptype,
+        hlen,
+        plen,
+        operation,
+        sender_mac,
+        sender_ip,
+        target_mac,
+        target_ip,
+    )
